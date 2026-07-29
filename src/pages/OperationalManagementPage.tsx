@@ -10,7 +10,7 @@ import {
   operationalFlowRecords,
   scienceRecords,
   validationRecords
-} from "../data/governance-demo";
+} from "../data/governance-dataset";
 import type { AreaDefinition, RiskLevel, UserSession } from "../types";
 
 interface OperationalManagementPageProps {

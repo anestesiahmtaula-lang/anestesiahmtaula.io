@@ -471,3 +471,87 @@ export interface ExtraRiskRecord {
   owner: string;
   action: string;
 }
+
+export type IntegrationMode = "demo_local" | "preparado_para_vinculo" | "conectado" | "erro";
+export type IntakeTool = "google_forms" | "google_sheets" | "google_forms_sigilo";
+export type IntegrationBindingStatus = "planejada" | "aguardando_endpoint" | "conectada";
+
+export interface GovernanceDataset {
+  deliveryRecords: DeliveryRecord[];
+  governancePlan: GovernancePlanItem[];
+  leadershipEntries: LeadershipEntry[];
+  decisionEntries: DecisionEntry[];
+  documentRecords: DocumentRecord[];
+  strategicRisks: StrategicRisk[];
+  meetingRecords: MeetingRecord[];
+  validationRecords: ValidationRecord[];
+  scienceRecords: ScienceRecord[];
+  evidenceRecords: EvidenceRecord[];
+  monthlyPerformanceRecords: MonthlyPerformanceRecord[];
+  clinicalIndicatorRecords: ClinicalIndicatorRecord[];
+  syncPreviewRecords: SyncPreviewRecord[];
+  syncRunRecords: SyncRunRecord[];
+  protocolRecords: ProtocolRecord[];
+  clinicalRiskRecords: ClinicalRiskRecord[];
+  educationRecords: EducationRecord[];
+  peoplePolicyRecords: PeoplePolicyRecord[];
+  teamCompositionRecords: TeamCompositionRecord[];
+  trainingRecords: TrainingRecord[];
+  equipmentChecklistRecords: EquipmentChecklistRecord[];
+  equipmentMaintenanceRecords: EquipmentMaintenanceRecord[];
+  equipmentEventRecords: EquipmentEventRecord[];
+  operationalFlowRecords: OperationalFlowRecord[];
+  operationalCapacityRecords: OperationalCapacityRecord[];
+  operationalConflictRecords: OperationalConflictRecord[];
+  recordAuditRecords: RecordAuditRecord[];
+  recordImprovementRecords: RecordImprovementRecord[];
+  recordTrainingRecords: RecordTrainingRecord[];
+  ambulatoryFlowRecords: AmbulatoryFlowRecord[];
+  ambulatoryAuditRecords: AmbulatoryAuditRecord[];
+  ambulatoryRiskRecords: AmbulatoryRiskRecord[];
+  ethicsFlowRecords: EthicsFlowRecord[];
+  ethicsDeliberationRecords: EthicsDeliberationRecord[];
+  ethicsSafeguardRecords: EthicsSafeguardRecord[];
+  financialOverviewRecords: FinancialOverviewRecord[];
+  financialDocumentRecords: FinancialDocumentRecord[];
+  financialControlRecords: FinancialControlRecord[];
+  extraSectorRecords: ExtraSectorRecord[];
+  extraDimensionRecords: ExtraDimensionRecord[];
+  extraRiskRecords: ExtraRiskRecord[];
+}
+
+export interface IntegrationAreaBinding {
+  areaSlug: AreaSlug;
+  areaTitle: string;
+  intakeTool: IntakeTool;
+  driveFolderUrl?: string;
+  intakeSheetName: string;
+  reportSheetName: string;
+  evidenceSheetName: string;
+  status: IntegrationBindingStatus;
+  note: string;
+}
+
+export interface DashboardSyncSnapshot {
+  source: "demo" | "apps_script";
+  mode: IntegrationMode;
+  trackedAreas: number;
+  formsConfigured: number;
+  sheetsConfigured: number;
+  evidenceLinked: number;
+  pendingBindings: number;
+  lastSyncLabel: string;
+  note: string;
+}
+
+export interface IntegrationManifest {
+  source: "local_bootstrap" | "apps_script";
+  mode: IntegrationMode;
+  rootDriveUrl: string;
+  appsScriptUrl?: string;
+  generatedAt: string;
+  lastSyncLabel: string;
+  note: string;
+  dashboard: DashboardSyncSnapshot;
+  areaBindings: IntegrationAreaBinding[];
+}

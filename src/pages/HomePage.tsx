@@ -1,8 +1,9 @@
+import { useGoogleIntegrationStatus } from "../hooks/use-google-integration-status";
 import { AreaCard } from "../components/AreaCard";
 import { SectionCard } from "../components/SectionCard";
 import { areaBySlug } from "../config/areas";
 import { appConfig } from "../config/app-config";
-import { deliveryRecords, documentRecords, strategicRisks } from "../data/governance-demo";
+import { deliveryRecords, documentRecords, strategicRisks } from "../data/governance-dataset";
 import type { AreaDefinition, UserSession } from "../types";
 
 interface HomePageProps {
@@ -16,6 +17,7 @@ export function HomePage({
   visibleAreas,
   activeSession
 }: HomePageProps) {
+  const integrationStatus = useGoogleIntegrationStatus();
   const mvpAreas = visibleAreas.filter((area) => area.phase === "MVP");
   const plannedAreas = visibleAreas.filter((area) => area.phase !== "MVP");
   const strategicModules = [
@@ -30,6 +32,16 @@ export function HomePage({
     visibleAreas: visibleAreas.length,
     phaseTwoAreas: plannedAreas.length
   };
+  const dashboard = integrationStatus.dashboard;
+  const manifest = integrationStatus.manifest;
+  const integrationModeLabel =
+    dashboard?.mode === "conectado"
+      ? "Conectado"
+      : dashboard?.mode === "erro"
+        ? "Com erro"
+        : dashboard?.mode === "preparado_para_vinculo"
+          ? "Pronto para vincular"
+          : "Demo local";
 
   return (
     <div className="page page--home">
@@ -118,6 +130,46 @@ export function HomePage({
           <article className="status-panel">
             <strong>Perfis e acesso</strong>
             <p>As sessoes continuam filtrando visualizacao, drive e leitura sensivel conforme o perfil ativo.</p>
+          </article>
+        </div>
+      </SectionCard>
+
+      <SectionCard title="Integracao Google" eyebrow="Base pronta para formularios, planilhas e relatorios automaticos">
+        <div className="status-grid">
+          <article className="status-panel">
+            <strong>Modo de integracao</strong>
+            <p>
+              {integrationStatus.loading
+                ? "Carregando diagnostico da integracao..."
+                : `${integrationModeLabel}. ${dashboard?.note ?? "Aguardando definicao do endpoint oficial."}`}
+            </p>
+          </article>
+          <article className="status-panel">
+            <strong>Arquitetura escolhida</strong>
+            <p>
+              {dashboard
+                ? `${dashboard.formsConfigured} area(s) com Google Forms, ${dashboard.sheetsConfigured} com Google Sheets e ${dashboard.pendingBindings} aguardando o Apps Script.`
+                : "As areas serao classificadas entre formulario e planilha conforme a natureza do lancamento."}
+            </p>
+          </article>
+          <article className="status-panel">
+            <strong>Sincronismo esperado</strong>
+            <p>
+              {dashboard
+                ? `${dashboard.trackedAreas} area(s) mapeadas, ${dashboard.evidenceLinked} evidencias-modelo ja vinculadas e ultimo status: ${dashboard.lastSyncLabel}.`
+                : "Os relatorios do app passarao a ler a planilha mestra assim que o endpoint Google estiver publicado."}
+            </p>
+          </article>
+          <article className="status-panel">
+            <strong>Pasta raiz e trilha</strong>
+            <p>
+              {manifest
+                ? "A classificacao das areas e a estrutura da planilha mestra ja foram preparadas neste incremento."
+                : "A pasta raiz do Drive permanece como repositorio oficial das evidencias por area."}
+            </p>
+            <a className="button button--ghost" href={appConfig.rootDriveUrl} target="_blank" rel="noreferrer">
+              Abrir raiz da integracao
+            </a>
           </article>
         </div>
       </SectionCard>

@@ -14,7 +14,7 @@ import {
   scienceRecords,
   strategicRisks,
   validationRecords
-} from "../data/governance-demo";
+} from "../data/governance-dataset";
 import type {
   AreaDefinition,
   DecisionStatus,

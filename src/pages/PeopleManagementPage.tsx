@@ -10,7 +10,7 @@ import {
   teamCompositionRecords,
   trainingRecords,
   validationRecords
-} from "../data/governance-demo";
+} from "../data/governance-dataset";
 import type { AreaDefinition, DocumentStatus, UserSession } from "../types";
 
 interface PeopleManagementPageProps {

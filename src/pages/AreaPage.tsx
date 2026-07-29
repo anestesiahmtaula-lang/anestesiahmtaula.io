@@ -1,22 +1,24 @@
+import { GoogleAreaWorkspacePanel } from "../components/GoogleAreaWorkspacePanel";
 import { SectionCard } from "../components/SectionCard";
-import type { AreaDefinition } from "../types";
+import type { AreaDefinition, UserSession } from "../types";
 
 interface AreaPageProps {
   area: AreaDefinition;
   onBack: () => void;
+  activeSession: UserSession;
 }
 
-export function AreaPage({ area, onBack }: AreaPageProps) {
+export function AreaPage({ area, onBack, activeSession }: AreaPageProps) {
   return (
     <div className="page page--area">
       <section className="area-hero">
         <div>
           <button className="back-link" onClick={onBack}>
-            ← Voltar para a frontpage
+            {"<- "}Voltar para a frontpage
           </button>
           <p className="hero__eyebrow">
             {area.phase}
-            {area.pilot ? " • área piloto" : ""}
+            {area.pilot ? " | area piloto" : ""}
           </p>
           <h1>{area.title}</h1>
           <p className="hero__lead">{area.purpose}</p>
@@ -29,13 +31,13 @@ export function AreaPage({ area, onBack }: AreaPageProps) {
             </a>
           ) : (
             <span className="button button--disabled" aria-disabled="true">
-              Drive em configuração
+              Drive em configuracao
             </span>
           )}
         </div>
       </section>
 
-      <div className="tabs-row" aria-label="Seções previstas da área">
+      <div className="tabs-row" aria-label="Secoes previstas da area">
         {area.tabs.map((tab) => (
           <span key={tab} className="tab-pill">
             {tab}
@@ -43,15 +45,17 @@ export function AreaPage({ area, onBack }: AreaPageProps) {
         ))}
       </div>
 
+      <GoogleAreaWorkspacePanel area={area} activeSession={activeSession} />
+
       <div className="content-grid">
-        <SectionCard title="Visão do incremento" eyebrow="Estado atual">
+        <SectionCard title="Visao do incremento" eyebrow="Estado atual">
           <p>
-            Esta área já tem rota, apresentação, acesso ao Drive e estrutura visual preparada para
-            receber entidades compartilhadas, permissões e integrações em marcos curtos.
+            Esta area ja tem rota, apresentacao, acesso ao Drive e estrutura visual preparada para
+            receber entidades compartilhadas, permissoes e integracoes em marcos curtos.
           </p>
         </SectionCard>
 
-        <SectionCard title="Focos da área" eyebrow="Primeiros blocos">
+        <SectionCard title="Focos da area" eyebrow="Primeiros blocos">
           <ul className="feature-list">
             {area.highlights.map((item) => (
               <li key={item}>{item}</li>
@@ -59,19 +63,19 @@ export function AreaPage({ area, onBack }: AreaPageProps) {
           </ul>
         </SectionCard>
 
-        <SectionCard title="Próxima implementação" eyebrow="Sem duplicar dados">
+        <SectionCard title="Proxima implementacao" eyebrow="Sem duplicar dados">
           <ul className="feature-list">
-            <li>Conectar esta rota às entidades compartilhadas de entregas e evidências.</li>
+            <li>Conectar esta rota as entidades compartilhadas de entregas e evidencias.</li>
             <li>Aplicar RBAC no servidor e na interface conforme o perfil.</li>
-            <li>Vincular referências de Drive sem criar cópias paralelas de documentos.</li>
+            <li>Vincular referencias de Drive sem criar copias paralelas de documentos.</li>
           </ul>
         </SectionCard>
 
-        <SectionCard title="Regras PWA deste estágio" eyebrow="Conectividade responsável">
+        <SectionCard title="Regras PWA deste estagio" eyebrow="Conectividade responsavel">
           <ul className="feature-list">
-            <li>Navegação básica permanece disponível offline.</li>
-            <li>Sincronizações externas exigirão conexão e autenticação válidas.</li>
-            <li>Validações não devem ser confirmadas enquanto o app estiver offline.</li>
+            <li>Navegacao basica permanece disponivel offline.</li>
+            <li>Sincronizacoes externas exigirao conexao e autenticacao validas.</li>
+            <li>Validacoes nao devem ser confirmadas enquanto o app estiver offline.</li>
           </ul>
         </SectionCard>
       </div>

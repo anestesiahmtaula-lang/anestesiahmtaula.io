@@ -525,6 +525,7 @@ export interface IntegrationAreaBinding {
   areaTitle: string;
   intakeTool: IntakeTool;
   driveFolderUrl?: string;
+  spreadsheetUrl?: string;
   intakeSheetName: string;
   reportSheetName: string;
   evidenceSheetName: string;
@@ -554,4 +555,46 @@ export interface IntegrationManifest {
   note: string;
   dashboard: DashboardSyncSnapshot;
   areaBindings: IntegrationAreaBinding[];
+}
+
+export interface AreaRemoteDelivery {
+  registro_id: string;
+  timestamp: string;
+  area_slug: AreaSlug;
+  competencia: string;
+  tipo_registro: string;
+  titulo: string;
+  descricao: string;
+  responsavel: string;
+  status: string;
+  prazo: string;
+  origem: string;
+  fonte_nome: string;
+  drive_url: string;
+  evidence_count: number;
+  restrito: string;
+  ultima_atualizacao: string;
+}
+
+export interface AreaRemoteEvidence {
+  evidencia_id: string;
+  registro_id: string;
+  area_slug: AreaSlug;
+  titulo: string;
+  tipo_evidencia: string;
+  drive_url: string;
+  status: string;
+  data_registro: string;
+  observacao: string;
+}
+
+export interface AreaSyncSnapshot {
+  source: "local_bootstrap" | "apps_script";
+  mode: IntegrationMode;
+  areaSlug: AreaSlug;
+  binding?: IntegrationAreaBinding;
+  deliveries: AreaRemoteDelivery[];
+  evidences: AreaRemoteEvidence[];
+  fetchedAt: string;
+  note: string;
 }

@@ -1,3 +1,4 @@
+import { GoogleAreaWorkspacePanel } from "../components/GoogleAreaWorkspacePanel";
 import { SectionCard } from "../components/SectionCard";
 import { MonthlyReportSection } from "../components/MonthlyReportSection";
 import { WorkflowBoard } from "../components/WorkflowBoard";
@@ -100,6 +101,8 @@ export function EquipmentManagementPage({
           </span>
         ))}
       </div>
+
+      <GoogleAreaWorkspacePanel area={area} activeSession={activeSession} />
 
       <section className="executive-metrics">
         <article className="executive-metric">

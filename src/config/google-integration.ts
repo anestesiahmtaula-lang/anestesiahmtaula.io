@@ -2,6 +2,7 @@ import type { AreaSlug, IntakeTool } from "../types";
 
 export interface AreaIntegrationStrategy {
   intakeTool: IntakeTool;
+  spreadsheetUrl?: string;
   intakeSheetName: string;
   reportSheetName: string;
   evidenceSheetName: string;
@@ -22,6 +23,7 @@ export const googleIntegrationConfig = {
 export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy> = {
   "coordenacao-administrativa": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1vwjH2VuV84nPqcH1iipgpInguJdPcHKIYNGI23uGuu8/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -29,6 +31,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "coordenacao-clinica": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1UDRVwvMMOK9Qn3SLWEipROWzHUhW01Lz6sDmPB5UW00/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -36,6 +39,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-da-qualidade": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1KS9GtfxX3qGXqQhJEnM99ABsTq6KaQBFBmz61DJB4jE/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -43,6 +47,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-de-pessoas": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1fzjG9zb6LaMNL9xnQQoczNFHgNVLyFOkqXitCjoUyd0/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -50,6 +55,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-de-equipamentos": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1JsGdTVPXAiYMCacnAk8JGKbvguQV62ZlIKTFMFV4wIA/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -57,6 +63,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-de-conduta-etica": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1EopAU7f2fsLGgpG7o8ZNvk5XNA_Cy6rkdVDs9L_u_F4/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -64,6 +71,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-financeira": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1R6GyDV29WbXaT6fltcaOeW6B9nyDhd3OykPGrtufHGs/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -71,6 +79,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-operacional": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1c05C1oZIk2NiAhkLcHpz6cSwe-_lpnu9LXQCn66LWzo/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -78,6 +87,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "gestao-de-prontuario": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1RhRP_rQ4uzg5phi9sGC9BrqaY2AC-uveidvtq9_9qAw/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -85,6 +95,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "ambulatorio-pre-anestesico": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1s6NgWfonm_nP6Ny-Dd-aaF66JTA1v5-mqL2znwNY9YI/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
@@ -92,6 +103,7 @@ export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy
   },
   "extra-bloco": {
     intakeTool: "google_sheets",
+    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1bQJuxGvNWYL-_4SdxU7wU7kKWcoMNU_pmSYCnHqslAA/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",

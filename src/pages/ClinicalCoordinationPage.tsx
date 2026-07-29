@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { EmptyState } from "../components/EmptyState";
 import { FilterChips } from "../components/FilterChips";
+import { GoogleAreaWorkspacePanel } from "../components/GoogleAreaWorkspacePanel";
 import { SectionCard } from "../components/SectionCard";
 import { WorkflowBoard } from "../components/WorkflowBoard";
 import { areaBySlug } from "../config/areas";
@@ -161,6 +162,8 @@ export function ClinicalCoordinationPage({
           </span>
         ))}
       </div>
+
+      <GoogleAreaWorkspacePanel area={area} activeSession={activeSession} />
 
       <section className="executive-metrics">
         <article className="executive-metric">

@@ -1,7 +1,15 @@
 import { activeAreas } from "../config/areas";
 import { areaIntegrationStrategies, googleIntegrationConfig } from "../config/google-integration";
-import { buildDemoDashboardSnapshot } from "../data/governance-dataset";
-import type { DashboardSyncSnapshot, IntegrationAreaBinding, IntegrationManifest } from "../types";
+import { buildDemoDashboardSnapshot, deliveryRecords, evidenceRecords } from "../data/governance-dataset";
+import type {
+  AreaRemoteDelivery,
+  AreaRemoteEvidence,
+  AreaSlug,
+  AreaSyncSnapshot,
+  DashboardSyncSnapshot,
+  IntegrationAreaBinding,
+  IntegrationManifest
+} from "../types";
 
 function isAppsScriptConfigured() {
   return googleIntegrationConfig.appsScriptWebAppUrl.startsWith("https://script.google.com/");
@@ -16,6 +24,7 @@ function buildLocalBindings(): IntegrationAreaBinding[] {
       areaTitle: area.title,
       intakeTool: strategy.intakeTool,
       driveFolderUrl: area.driveUrl,
+      spreadsheetUrl: strategy.spreadsheetUrl,
       intakeSheetName: strategy.intakeSheetName,
       reportSheetName: strategy.reportSheetName,
       evidenceSheetName: strategy.evidenceSheetName,
@@ -52,8 +61,18 @@ function buildLocalManifest(): IntegrationManifest {
 }
 
 async function fetchAppsScriptJson<T>(action: string): Promise<T> {
+  return fetchAppsScriptJsonWithParams<T>(action);
+}
+
+async function fetchAppsScriptJsonWithParams<T>(
+  action: string,
+  params?: Record<string, string>
+): Promise<T> {
   const url = new URL(googleIntegrationConfig.appsScriptWebAppUrl);
   url.searchParams.set("action", action);
+  Object.entries(params ?? {}).forEach(([key, value]) => {
+    url.searchParams.set(key, value);
+  });
   const controller = new AbortController();
   const timeout = window.setTimeout(() => controller.abort(), 12000);
 
@@ -76,6 +95,56 @@ async function fetchAppsScriptJson<T>(action: string): Promise<T> {
   } finally {
     window.clearTimeout(timeout);
   }
+}
+
+function buildLocalAreaSnapshot(areaSlug: AreaSlug): AreaSyncSnapshot {
+  const binding = buildLocalBindings().find((item) => item.areaSlug === areaSlug);
+  const localDeliveries: AreaRemoteDelivery[] = deliveryRecords
+    .filter((item) => item.areaSlug === areaSlug)
+    .map((item) => ({
+      registro_id: item.id,
+      timestamp: item.dueLabel,
+      area_slug: item.areaSlug,
+      competencia: item.competence,
+      tipo_registro: "entrega_pwa",
+      titulo: item.title,
+      descricao: item.title,
+      responsavel: item.owner,
+      status: item.status,
+      prazo: item.dueLabel,
+      origem: "pwa_local",
+      fonte_nome: item.owner,
+      drive_url: binding?.driveFolderUrl ?? "",
+      evidence_count: item.evidenceCount,
+      restrito: "nao",
+      ultima_atualizacao: item.dueLabel
+    }));
+
+  const deliveryIds = new Set(localDeliveries.map((item) => item.registro_id));
+  const localEvidences: AreaRemoteEvidence[] = evidenceRecords
+    .filter((item) => deliveryIds.has(item.deliveryId))
+    .map((item) => ({
+      evidencia_id: item.id,
+      registro_id: item.deliveryId,
+      area_slug: areaSlug,
+      titulo: item.title,
+      tipo_evidencia: item.kind,
+      drive_url: binding?.driveFolderUrl ?? "",
+      status: item.status,
+      data_registro: item.dateLabel,
+      observacao: item.source
+    }));
+
+  return {
+    source: "local_bootstrap",
+    mode: "erro",
+    areaSlug,
+    binding,
+    deliveries: localDeliveries,
+    evidences: localEvidences,
+    fetchedAt: new Date().toISOString(),
+    note: "Leitura remota indisponivel no momento; a area foi mantida com um espelho local seguro."
+  };
 }
 
 export async function loadIntegrationManifest(): Promise<IntegrationManifest> {
@@ -108,5 +177,43 @@ export async function loadDashboardSyncSnapshot(): Promise<DashboardSyncSnapshot
       mode: "erro",
       note: "Nao foi possivel ler o painel remoto publicado; o PWA permaneceu com a base local preparada."
     };
+  }
+}
+
+export async function loadAreaSyncSnapshot(areaSlug: AreaSlug): Promise<AreaSyncSnapshot> {
+  if (!isAppsScriptConfigured()) {
+    return {
+      ...buildLocalAreaSnapshot(areaSlug),
+      mode: "preparado_para_vinculo",
+      note: "A area esta preparada para vinculo e segue operando com dados locais enquanto a leitura remota nao e exigida."
+    };
+  }
+
+  try {
+    const manifest = await loadIntegrationManifest();
+    const response = await fetchAppsScriptJsonWithParams<{
+      source: "apps_script";
+      mode: "conectado" | "erro";
+      areaSlug: AreaSlug;
+      deliveries: AreaRemoteDelivery[];
+      evidences: AreaRemoteEvidence[];
+      fetchedAt: string;
+    }>(googleIntegrationConfig.areaAction, { areaSlug });
+
+    return {
+      source: response.source,
+      mode: response.mode,
+      areaSlug: response.areaSlug,
+      binding: manifest.areaBindings.find((item) => item.areaSlug === areaSlug),
+      deliveries: response.deliveries ?? [],
+      evidences: response.evidences ?? [],
+      fetchedAt: response.fetchedAt,
+      note:
+        response.deliveries?.length || response.evidences?.length
+          ? "Leitura remota da area ativa pela planilha mestra."
+          : "Leitura remota da area ativa, aguardando novos lancamentos ou evidencias."
+    };
+  } catch {
+    return buildLocalAreaSnapshot(areaSlug);
   }
 }

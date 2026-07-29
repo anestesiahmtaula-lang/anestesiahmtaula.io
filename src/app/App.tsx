@@ -148,7 +148,7 @@ export function App() {
             activeSession={activeSession}
           />
         ) : (
-          <AreaPage area={area} onBack={() => navigateTo("/")} />
+          <AreaPage area={area} onBack={() => navigateTo("/")} activeSession={activeSession} />
         )
       ) : routeMatch.kind === "area" && area && !isAllowedArea ? (
         <div className="page page--area">

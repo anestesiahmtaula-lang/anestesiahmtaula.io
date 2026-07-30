@@ -2,6 +2,7 @@ import type { AreaSlug, IntakeTool } from "../types";
 
 export interface AreaIntegrationStrategy {
   intakeTool: IntakeTool;
+  formUrl?: string;
   spreadsheetUrl?: string;
   intakeSheetName: string;
   reportSheetName: string;
@@ -14,7 +15,7 @@ export const googleIntegrationConfig = {
   masterFolderUrl: "https://drive.google.com/drive/folders/1TrhFBka0uT2IahbWwhY-CjPBuKEYpauC",
   masterSpreadsheetId: "1jiaHXLaR9p0dTh42MZ-pJbAPgt-DYfvLRHhwLR7tFy4",
   masterSpreadsheetUrl: "https://docs.google.com/spreadsheets/d/1jiaHXLaR9p0dTh42MZ-pJbAPgt-DYfvLRHhwLR7tFy4/edit?usp=drivesdk",
-  appsScriptWebAppUrl: "https://script.google.com/macros/s/AKfycbxDyAyWrYyR_76pI7hsabuCm4E_2jffQZRfwDh8uT997roNErDlgOf-R7NevDwVnBAC/exec",
+  appsScriptWebAppUrl: "https://script.google.com/macros/s/AKfycbw-dXiyr9sHjCR325dtJz4Q-_3tg1jifPms9srNRt1WQupC-BkN_e0Eb_dIa6EThws/exec",
   dashboardAction: "readDashboard",
   manifestAction: "readManifest",
   areaAction: "readArea"
@@ -22,92 +23,125 @@ export const googleIntegrationConfig = {
 
 export const areaIntegrationStrategies: Record<AreaSlug, AreaIntegrationStrategy> = {
   "coordenacao-administrativa": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1vwjH2VuV84nPqcH1iipgpInguJdPcHKIYNGI23uGuu8/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSd41zGAgJrSiACENKdK9wX-rqCJhmY8uhHsyZE86yTqFv7LhQ/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1YKeQMry14-UrAmWTjq0uRIiZSj0krmA00lrJ-JV94pY/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e vinculada a consolidacao central."
+    note: "Formulario gerencial criado para a area, com planilha operacional ja vinculada a consolidacao central."
   },
   "coordenacao-clinica": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1UDRVwvMMOK9Qn3SLWEipROWzHUhW01Lz6sDmPB5UW00/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSdRzicjKuapnuq-9cHcZ_Inp3nOeb_F6YdNPzZhetZoGCAC2A/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1-KZEOUyeeLYTN7vm2VCwZlOvTO2CtgbmF3K8VGjPXpg/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e vinculada a consolidacao central."
+    note: "Formulario gerencial criado para a area, com planilha operacional ja vinculada a consolidacao central."
   },
   "gestao-da-qualidade": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1KS9GtfxX3qGXqQhJEnM99ABsTq6KaQBFBmz61DJB4jE/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSe9KtPT5yTyxXpaUInOb_ob7-nlErloGWAlCfVzU5vBkmch5w/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1xXCZnDvzlVF99PCco4WTtwE1kEyShCI5mOY_UREKwyo/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e vinculada a consolidacao central."
+    note: "Formulario gerencial criado para a area, com planilha operacional ja vinculada a consolidacao central."
   },
   "gestao-de-pessoas": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1fzjG9zb6LaMNL9xnQQoczNFHgNVLyFOkqXitCjoUyd0/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSeGFzYxKOaUYFhi-MiT0rtcmIdZf4lMP0qZfU2aKbvGq2B8Nw/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1xL1snSOqSOHirVkAW6tGWpcxhNJ9OX2mbj4JWHwD0bI/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para registro de pessoas e treinamentos."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de pessoas e treinamentos."
   },
   "gestao-de-equipamentos": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1JsGdTVPXAiYMCacnAk8JGKbvguQV62ZlIKTFMFV4wIA/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSc0RLPK0J6LdlRf3-o6wfZ_RQEixdv32DPLD-Jl-ISTFaxKFA/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1fIBNnXri1JXOQOcyupSJNWBmD8iIMoqFp8qzvA9dt-E/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para checklists, eventos e manutencoes."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de checklists, eventos e manutencoes."
   },
   "gestao-de-conduta-etica": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1EopAU7f2fsLGgpG7o8ZNvk5XNA_Cy6rkdVDs9L_u_F4/edit?usp=drivesdk",
+    intakeTool: "google_forms_sigilo",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSc30X-pI6XfsLUow0UBuRY3hUuznJnkYhv3uoa-lx0zshEUSQ/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1SgzRaN-0JiaWAcDmD7Hd8Cp-GaPRcFwF9qYgwNvAE1E/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada com controle de uso protegido no fluxo etico."
+    note: "Formulario sigiloso criado para a area, mantendo a planilha operacional protegida do fluxo etico."
   },
   "gestao-financeira": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1R6GyDV29WbXaT6fltcaOeW6B9nyDhd3OykPGrtufHGs/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLScH4s6Tc2vUxy7dWvUjTsnl4yCozVNzonW8ZaqTFmPqNhI51g/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/18tSyE36O0ZtBmJqFK59DZzoeKJwyS8Zg45s7y2lOJr0/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e vinculada a consolidacao central."
+    note: "Formulario gerencial criado para a area, com planilha operacional ja vinculada a consolidacao central."
   },
   "gestao-operacional": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1c05C1oZIk2NiAhkLcHpz6cSwe-_lpnu9LXQCn66LWzo/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSe_t-cqcTboxoN2an13zKEZwFwMoCxD14debKv7SILkRj_sgQ/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1bfMUJaVlZ9KQB4TslZ3dbob9KL116uDbgbY_m8dLDN0/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para ocorrencias, cobertura e contingencias."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de ocorrencias, cobertura e contingencias."
   },
   "gestao-de-prontuario": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1RhRP_rQ4uzg5phi9sGC9BrqaY2AC-uveidvtq9_9qAw/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSeUPMiefZg8fhFVxDI1RzuOLtmIqMEzp2_TnOEzGm9cNff3Cw/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1mjxE6pxX6aSJbXKKFMqrmlOIzguoMBeNPioNjdj9GVU/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para auditorias e melhoria documental."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de auditorias e melhoria documental."
   },
   "ambulatorio-pre-anestesico": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1s6NgWfonm_nP6Ny-Dd-aaF66JTA1v5-mqL2znwNY9YI/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSe1Of1p8K9RDEezUUeUzSUJZUaPIZJ1dTRbFplI3YaENzMGgA/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1XTnY__wMT7VgwhFd4bu6Z_K3lBymvea1sD25FZcX4uE/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para barreiras, auditorias e riscos do ambulatorio."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de barreiras, auditorias e riscos do ambulatorio."
   },
   "extra-bloco": {
-    intakeTool: "google_sheets",
-    spreadsheetUrl: "https://docs.google.com/spreadsheets/d/1bQJuxGvNWYL-_4SdxU7wU7kKWcoMNU_pmSYCnHqslAA/edit?usp=drivesdk",
+    intakeTool: "google_forms",
+    formUrl:
+      "https://docs.google.com/forms/d/e/1FAIpQLSd_Hl7IfIy7VP6UyGlDUWcP-3KiXggrDF7aiZb0L3PIGJOENg/viewform?usp=header",
+    spreadsheetUrl:
+      "https://docs.google.com/spreadsheets/d/1DEYcuJf8PEhflG_HRMvCpG5DkqORsFLUn4Rv8wWzQRo/edit?usp=drivesdk",
     intakeSheetName: "Lancamentos",
     reportSheetName: "Resumo",
     evidenceSheetName: "Evidencias",
-    note: "Planilha de area ja criada e pronta para devolutiva setorial e risco de cobertura."
+    note: "Formulario gerencial criado para a area, mantendo a planilha operacional de devolutiva setorial e risco de cobertura."
   },
   esg: {
     intakeTool: "google_sheets",

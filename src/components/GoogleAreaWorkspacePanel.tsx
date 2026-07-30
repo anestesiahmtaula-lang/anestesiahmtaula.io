@@ -12,6 +12,22 @@ function formatStatusLabel(value: string) {
   return value.split("_").join(" ");
 }
 
+function formatIntakeToolLabel(value?: string) {
+  if (value === "google_forms") {
+    return "Google Forms";
+  }
+
+  if (value === "google_forms_sigilo") {
+    return "Google Forms sigiloso";
+  }
+
+  if (value === "google_sheets") {
+    return "Google Sheets";
+  }
+
+  return "Nao definido";
+}
+
 export function GoogleAreaWorkspacePanel({
   area,
   activeSession
@@ -93,13 +109,19 @@ export function GoogleAreaWorkspacePanel({
         <article className="status-panel">
           <strong>Acessos diretos</strong>
           <p>
-            A operacao da area pode abrir a pasta oficial, a planilha de entrada e a planilha
-            mestra sem depender de menus externos.
+            A operacao da area pode abrir a pasta oficial, o canal de entrada configurado e a
+            planilha mestra sem depender de menus externos.
           </p>
+          <p>Canal atual: {formatIntakeToolLabel(binding?.intakeTool)}</p>
           <div className="workspace-links">
             {activeSession.permissions.canOpenDrive && area.driveUrl ? (
               <a className="button button--ghost" href={area.driveUrl} target="_blank" rel="noreferrer">
                 Pasta da area
+              </a>
+            ) : null}
+            {binding?.formUrl ? (
+              <a className="button button--ghost" href={binding.formUrl} target="_blank" rel="noreferrer">
+                Formulario da area
               </a>
             ) : null}
             {binding?.spreadsheetUrl ? (
@@ -166,8 +188,8 @@ export function GoogleAreaWorkspacePanel({
             <div className="report-card report-card--empty">
               <strong>Sem lancamentos remotos nesta area</strong>
               <p>
-                Assim que a equipe registrar novas acoes na planilha, elas aparecerao aqui
-                automaticamente.
+                Assim que a equipe registrar novas acoes no formulario ou na planilha oficial,
+                elas aparecerao aqui automaticamente.
               </p>
             </div>
           )}

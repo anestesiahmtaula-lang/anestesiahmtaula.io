@@ -123,7 +123,7 @@ Endpoints previstos:
 
 Web App publicado em 29/07/2026:
 
-- [Apps Script Web App](https://script.google.com/macros/s/AKfycbxDyAyWrYyR_76pI7hsabuCm4E_2jffQZRfwDh8uT997roNErDlgOf-R7NevDwVnBAC/exec)
+- [Apps Script Web App](https://script.google.com/macros/s/AKfycbw-dXiyr9sHjCR325dtJz4Q-_3tg1jifPms9srNRt1WQupC-BkN_e0Eb_dIa6EThws/exec)
 
 ## Estado do sincronismo
 

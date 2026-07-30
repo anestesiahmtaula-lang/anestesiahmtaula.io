@@ -149,7 +149,7 @@ export function HomePage({
             <p>
               {dashboard
                 ? `${dashboard.formsConfigured} area(s) com Google Forms, ${dashboard.sheetsConfigured} com Google Sheets e ${dashboard.pendingBindings} aguardando o Apps Script.`
-                : "As areas serao classificadas entre formulario e planilha conforme a natureza do lancamento."}
+                : "As areas serao classificadas entre formulario gerencial e planilha operacional conforme a natureza do lancamento."}
             </p>
           </article>
           <article className="status-panel">
@@ -157,7 +157,7 @@ export function HomePage({
             <p>
               {dashboard
                 ? `${dashboard.trackedAreas} area(s) mapeadas, ${dashboard.evidenceLinked} evidencias-modelo ja vinculadas e ultimo status: ${dashboard.lastSyncLabel}.`
-                : "Os relatorios do app passarao a ler a planilha mestra assim que o endpoint Google estiver publicado."}
+                : "Os relatorios do app passarao a ler a planilha mestra assim que formularios, planilhas e endpoint oficial estiverem publicados."}
             </p>
           </article>
           <article className="status-panel">

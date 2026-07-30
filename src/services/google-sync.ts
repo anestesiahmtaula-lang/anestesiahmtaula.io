@@ -24,6 +24,7 @@ function buildLocalBindings(): IntegrationAreaBinding[] {
       areaTitle: area.title,
       intakeTool: strategy.intakeTool,
       driveFolderUrl: area.driveUrl,
+      formUrl: strategy.formUrl,
       spreadsheetUrl: strategy.spreadsheetUrl,
       intakeSheetName: strategy.intakeSheetName,
       reportSheetName: strategy.reportSheetName,
@@ -32,6 +33,46 @@ function buildLocalBindings(): IntegrationAreaBinding[] {
       note: strategy.note
     };
   });
+}
+
+function mergeBindingWithLocal(binding: IntegrationAreaBinding): IntegrationAreaBinding {
+  const localBinding = buildLocalBindings().find((item) => item.areaSlug === binding.areaSlug);
+
+  if (!localBinding) {
+    return binding;
+  }
+
+  return {
+    ...localBinding,
+    ...binding,
+    driveFolderUrl: binding.driveFolderUrl || localBinding.driveFolderUrl,
+    formUrl: binding.formUrl || localBinding.formUrl,
+    spreadsheetUrl: binding.spreadsheetUrl || localBinding.spreadsheetUrl,
+    status: binding.status || localBinding.status,
+    note: binding.note || localBinding.note
+  };
+}
+
+function mergeManifestWithLocal(manifest: IntegrationManifest): IntegrationManifest {
+  const localBindings = buildLocalBindings();
+  const remoteAreaSlugs = new Set(manifest.areaBindings.map((item) => item.areaSlug));
+  const mergedAreaBindings = [
+    ...manifest.areaBindings.map((item) => mergeBindingWithLocal(item)),
+    ...localBindings.filter((item) => !remoteAreaSlugs.has(item.areaSlug))
+  ];
+  const formsConfigured = mergedAreaBindings.filter((item) => item.intakeTool !== "google_sheets").length;
+  const sheetsConfigured = mergedAreaBindings.filter((item) => item.intakeTool === "google_sheets").length;
+
+  return {
+    ...manifest,
+    areaBindings: mergedAreaBindings,
+    dashboard: {
+      ...manifest.dashboard,
+      trackedAreas: Math.max(manifest.dashboard.trackedAreas, mergedAreaBindings.length),
+      formsConfigured,
+      sheetsConfigured
+    }
+  };
 }
 
 function buildLocalManifest(): IntegrationManifest {
@@ -153,7 +194,8 @@ export async function loadIntegrationManifest(): Promise<IntegrationManifest> {
   }
 
   try {
-    return await fetchAppsScriptJson<IntegrationManifest>(googleIntegrationConfig.manifestAction);
+    const remoteManifest = await fetchAppsScriptJson<IntegrationManifest>(googleIntegrationConfig.manifestAction);
+    return mergeManifestWithLocal(remoteManifest);
   } catch {
     return {
       ...buildLocalManifest(),
@@ -170,7 +212,17 @@ export async function loadDashboardSyncSnapshot(): Promise<DashboardSyncSnapshot
   }
 
   try {
-    return await fetchAppsScriptJson<DashboardSyncSnapshot>(googleIntegrationConfig.dashboardAction);
+    const [dashboard, manifest] = await Promise.all([
+      fetchAppsScriptJson<DashboardSyncSnapshot>(googleIntegrationConfig.dashboardAction),
+      loadIntegrationManifest()
+    ]);
+
+    return {
+      ...dashboard,
+      trackedAreas: Math.max(dashboard.trackedAreas, manifest.areaBindings.length),
+      formsConfigured: manifest.areaBindings.filter((item) => item.intakeTool !== "google_sheets").length,
+      sheetsConfigured: manifest.areaBindings.filter((item) => item.intakeTool === "google_sheets").length
+    };
   } catch {
     return {
       ...buildLocalManifest().dashboard,

@@ -525,6 +525,7 @@ export interface IntegrationAreaBinding {
   areaTitle: string;
   intakeTool: IntakeTool;
   driveFolderUrl?: string;
+  formUrl?: string;
   spreadsheetUrl?: string;
   intakeSheetName: string;
   reportSheetName: string;
